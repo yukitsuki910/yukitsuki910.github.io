@@ -2,13 +2,10 @@
 <html lang="zh-Hant">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>偶像夢幻祭 偶像分團</title>
-
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -17,50 +14,35 @@
   rel="stylesheet"
 >
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 
 <style>
 
 /* =========================================================
-   基本設定
+   基本
    ========================================================= */
 
 :root{
-
   --text:#000000;
-
   --line:#000000;
-
-  --light:#f5f5f5;
-
-  --gray:#888888;
-
+  --bg:#ffffff;
+  --gray:#eeeeee;
   --pink:#ff5da2;
-
   --cyan:#5eead4;
-
 }
-
 
 *{
   box-sizing:border-box;
 }
 
-
 html,
 body{
-
   margin:0;
-
   padding:0;
-
 }
 
-
 body{
-
   min-height:100vh;
 
   background:#ffffff;
@@ -72,18 +54,12 @@ body{
   padding:24px 16px 100px;
 
   -webkit-user-select:none;
-
   user-select:none;
-
 }
 
-
 .wrap{
-
   max-width:1080px;
-
   margin:0 auto;
-
 }
 
 
@@ -93,20 +69,13 @@ body{
    ========================================================= */
 
 header{
-
   text-align:center;
-
   margin-bottom:22px;
-
 }
 
-
 .eyebrow{
-
   font-family:'Baloo 2',sans-serif;
-
   letter-spacing:.35em;
-
   font-size:12px;
 
   color:#000000;
@@ -114,14 +83,10 @@ header{
   text-transform:uppercase;
 
   margin-bottom:8px;
-
 }
 
-
 h1{
-
   font-weight:900;
-
   font-size:clamp(24px,5vw,38px);
 
   margin:0 0 10px;
@@ -129,22 +94,18 @@ h1{
   color:#000000;
 
   line-height:1.3;
-
 }
 
-
 p.sub{
-
   color:#000000;
 
   font-size:14px;
 
-  max-width:600px;
+  max-width:620px;
 
   margin:0 auto;
 
   line-height:1.7;
-
 }
 
 
@@ -154,7 +115,6 @@ p.sub{
    ========================================================= */
 
 .controls{
-
   display:flex;
 
   justify-content:center;
@@ -164,12 +124,9 @@ p.sub{
   margin:22px 0 30px;
 
   flex-wrap:wrap;
-
 }
 
-
 button{
-
   font-family:'Baloo 2',sans-serif;
 
   font-size:14px;
@@ -185,60 +142,37 @@ button{
   cursor:pointer;
 
   transition:
-
     transform .15s ease,
-
-    background .15s ease,
-
     opacity .15s ease;
-
 }
-
 
 button:hover{
-
   transform:translateY(-2px);
-
 }
 
-
 button:disabled{
-
   opacity:.5;
 
   cursor:not-allowed;
 
   transform:none;
-
 }
-
 
 #exportBtn{
-
   background:#ff5da2;
-
   color:#000000;
-
 }
 
-
 #resetBtn{
-
   background:#ffffff;
-
   color:#000000;
 
   border:2px solid #000000;
-
 }
 
-
 #answerBtn{
-
   background:#5eead4;
-
   color:#000000;
-
 }
 
 
@@ -256,9 +190,7 @@ button:disabled{
   border-radius:18px;
 
   overflow:hidden;
-
 }
-
 
 .row{
 
@@ -267,15 +199,12 @@ button:disabled{
   min-height:78px;
 
   border-bottom:2px solid #000000;
-
 }
-
 
 .row:last-child{
-
   border-bottom:none;
-
 }
+
 
 
 /* =========================================================
@@ -309,16 +238,15 @@ button:disabled{
   word-break:keep-all;
 
   border-right:2px solid #000000;
-
 }
+
 
 
 /* =========================================================
    Tier 角色區
 
-   現在不拖曳。
-
-   點擊整個區域即可開啟角色選擇視窗。
+   不拖曳。
+   點擊空白區開啟選角視窗。
    ========================================================= */
 
 .row-drop{
@@ -344,22 +272,16 @@ button:disabled{
   cursor:pointer;
 
   transition:background .12s ease;
-
 }
 
-
 .row-drop:hover{
-
-  background:#f2f2f2;
-
+  background:#f3f3f3;
 }
 
 
 
 /* =========================================================
-   Tier 裡面的角色
-
-   點擊角色可以移除
+   Tier 裡的角色
    ========================================================= */
 
 .tier-item{
@@ -386,8 +308,10 @@ button:disabled{
 
   cursor:pointer;
 
+  transition:
+    transform .12s ease,
+    box-shadow .12s ease;
 }
-
 
 .tier-item img{
 
@@ -400,30 +324,33 @@ button:disabled{
   display:block;
 
   pointer-events:none;
-
 }
-
 
 .tier-item:hover{
 
+  transform:scale(1.06);
+
   box-shadow:
-
     0 0 0 3px #ff5da2;
-
 }
 
 
 
 /* =========================================================
-   偶像池區域
+   下方「偶像池預覽」
+
+   注意：
+   這裡只有一個池。
+
+   不能點選、不能拖曳。
+
+   只是讓玩家查看所有角色＋名字。
    ========================================================= */
 
 .pool-section{
 
-  margin-top:26px;
-
+  margin-top:28px;
 }
-
 
 .section-label{
 
@@ -444,9 +371,7 @@ button:disabled{
   align-items:center;
 
   gap:8px;
-
 }
-
 
 .section-label::before{
 
@@ -459,103 +384,16 @@ button:disabled{
   background:#000000;
 
   display:inline-block;
-
 }
 
+.preview-pool{
 
+  display:grid;
 
-/* =========================================================
-   偶像池 Tabs
-   ========================================================= */
+  grid-template-columns:
+    repeat(auto-fill,minmax(74px,1fr));
 
-.pool-tabs{
-
-  display:flex;
-
-  width:100%;
-
-  margin-bottom:10px;
-
-  border:2px solid #000000;
-
-  border-radius:14px;
-
-  overflow:hidden;
-
-  background:#ffffff;
-
-}
-
-
-.pool-tab{
-
-  flex:1;
-
-  border:none;
-
-  border-radius:0;
-
-  background:#ffffff;
-
-  color:#000000;
-
-  padding:10px 16px;
-
-  font-family:'Baloo 2',sans-serif;
-
-  font-size:14px;
-
-  font-weight:700;
-
-  cursor:pointer;
-
-  transform:none !important;
-
-}
-
-
-.pool-tab + .pool-tab{
-
-  border-left:2px solid #000000;
-
-}
-
-
-.pool-tab.active{
-
-  background:#000000;
-
-  color:#ffffff;
-
-}
-
-
-
-/* =========================================================
-   Pool
-   ========================================================= */
-
-.pool-content{
-
-  display:none;
-
-}
-
-
-.pool-content.active{
-
-  display:block;
-
-}
-
-
-.pool{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:10px;
+  gap:14px;
 
   background:#ffffff;
 
@@ -564,22 +402,29 @@ button:disabled{
   border-radius:18px;
 
   padding:16px;
-
-  min-height:90px;
-
 }
 
 
 
 /* =========================================================
-   偶像池角色
-
-   注意：
-
-   這裡沒有 draggable。
+   預覽角色
    ========================================================= */
 
-.pool-item{
+.preview-item{
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:5px;
+
+  min-width:0;
+
+}
+
+.preview-image{
 
   width:58px;
 
@@ -593,35 +438,9 @@ button:disabled{
 
   background:#ffffff;
 
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  flex-shrink:0;
-
-  cursor:pointer;
-
-  transition:
-
-    transform .12s ease,
-
-    opacity .12s ease,
-
-    filter .12s ease;
-
 }
 
-
-.pool-item:hover{
-
-  transform:scale(1.06);
-
-}
-
-
-.pool-item img{
+.preview-image img{
 
   width:100%;
 
@@ -630,32 +449,19 @@ button:disabled{
   object-fit:cover;
 
   display:block;
-
-  pointer-events:none;
-
 }
 
+.preview-name{
 
+  color:#000000;
 
-/* =========================================================
-   偶像池 1 已經使用過的角色
-   ========================================================= */
+  font-size:10px;
 
-.pool-item.used{
+  line-height:1.3;
 
-  opacity:.25;
+  text-align:center;
 
-  filter:grayscale(1);
-
-  cursor:not-allowed;
-
-}
-
-
-.pool-item.used:hover{
-
-  transform:none;
-
+  word-break:break-all;
 }
 
 
@@ -678,25 +484,20 @@ button:disabled{
 
   justify-content:center;
 
-  padding:20px;
+  padding:16px;
 
   background:rgba(0,0,0,.65);
-
 }
-
 
 .modal.open{
-
   display:flex;
-
 }
-
 
 .modal-box{
 
   width:min(900px,100%);
 
-  max-height:90vh;
+  max-height:92vh;
 
   background:#ffffff;
 
@@ -711,14 +512,14 @@ button:disabled{
   flex-direction:column;
 
   box-shadow:
-
-    0 20px 60px rgba(0,0,0,.35);
-
+    0 20px 60px rgba(0,0,0,.4);
 }
 
 
 
-/* Modal Header */
+/* =========================================================
+   Modal Header
+   ========================================================= */
 
 .modal-header{
 
@@ -730,12 +531,10 @@ button:disabled{
 
   gap:12px;
 
-  padding:16px 18px;
+  padding:15px 18px;
 
   border-bottom:2px solid #000000;
-
 }
-
 
 .modal-title{
 
@@ -746,9 +545,7 @@ button:disabled{
   font-weight:900;
 
   color:#000000;
-
 }
-
 
 .modal-close{
 
@@ -775,47 +572,98 @@ button:disabled{
   align-items:center;
 
   justify-content:center;
-
 }
-
 
 .modal-close:hover{
 
   background:#eeeeee;
 
   transform:none;
-
 }
 
 
 
-/* Modal 內容 */
+/* =========================================================
+   Modal 的池子標籤
+
+   這裡才有：
+
+   偶像池 1 | 偶像池 2
+   ========================================================= */
+
+.modal-tabs{
+
+  display:flex;
+
+  border-bottom:2px solid #000000;
+
+  background:#ffffff;
+}
+
+.modal-tab{
+
+  flex:1;
+
+  border:none;
+
+  border-radius:0;
+
+  background:#ffffff;
+
+  color:#000000;
+
+  padding:11px 16px;
+
+  font-family:'Baloo 2',sans-serif;
+
+  font-size:14px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  transform:none !important;
+}
+
+.modal-tab + .modal-tab{
+
+  border-left:2px solid #000000;
+}
+
+.modal-tab.active{
+
+  background:#000000;
+
+  color:#ffffff;
+}
+
+
+
+/* =========================================================
+   Modal 內容
+   ========================================================= */
 
 .modal-body{
 
   overflow-y:auto;
 
   padding:16px;
-
 }
-
 
 .character-grid{
 
   display:grid;
 
   grid-template-columns:
-
-    repeat(auto-fill,minmax(70px,1fr));
+    repeat(auto-fill,minmax(72px,1fr));
 
   gap:12px;
-
 }
 
 
 
 /* =========================================================
-   Modal 裡面的角色
+   Modal 角色
    ========================================================= */
 
 .character-option{
@@ -830,8 +678,8 @@ button:disabled{
 
   cursor:pointer;
 
+  min-width:0;
 }
-
 
 .character-image{
 
@@ -848,13 +696,9 @@ button:disabled{
   background:#ffffff;
 
   transition:
-
     transform .12s ease,
-
     box-shadow .12s ease;
-
 }
-
 
 .character-image img{
 
@@ -865,69 +709,60 @@ button:disabled{
   object-fit:cover;
 
   display:block;
-
 }
-
 
 .character-option:hover .character-image{
 
   transform:scale(1.08);
 
   box-shadow:
-
     0 0 0 3px #ff5da2;
-
 }
-
 
 .character-option.used{
 
   opacity:.25;
 
   cursor:not-allowed;
-
 }
-
 
 .character-option.used:hover .character-image{
 
   transform:none;
 
   box-shadow:none;
-
 }
 
-
 .character-name{
+
+  color:#000000;
 
   font-size:10px;
 
   font-weight:600;
 
-  color:#000000;
-
   text-align:center;
 
   word-break:break-all;
 
+  line-height:1.3;
 }
 
 
 
 /* =========================================================
-   Modal 沒有可選角色
+   Modal 提示
    ========================================================= */
 
-.no-character{
+.modal-note{
 
   text-align:center;
 
-  padding:40px 10px;
+  font-size:11px;
 
   color:#000000;
 
-  font-size:14px;
-
+  padding:0 16px 12px;
 }
 
 
@@ -945,7 +780,6 @@ footer{
   font-size:12px;
 
   margin-top:30px;
-
 }
 
 
@@ -957,88 +791,70 @@ footer{
 @media(max-width:600px){
 
   body{
-
     padding:16px 8px 70px;
-
   }
-
 
   .row-label{
 
     flex:0 0 82px;
 
     font-size:11px;
-
   }
-
 
   .tier-item{
 
-    width:52px;
+    width:50px;
 
-    height:52px;
-
+    height:50px;
   }
 
+  .preview-pool{
 
-  .pool-item{
+    grid-template-columns:
+      repeat(auto-fill,minmax(62px,1fr));
 
-    width:52px;
-
-    height:52px;
-
-  }
-
-
-  .pool{
-
-    gap:7px;
+    gap:11px;
 
     padding:12px;
-
   }
 
+  .preview-image{
+
+    width:52px;
+
+    height:52px;
+  }
 
   .character-grid{
 
     grid-template-columns:
-
       repeat(auto-fill,minmax(62px,1fr));
 
     gap:10px;
-
   }
-
 
   .character-image{
 
     width:56px;
 
     height:56px;
-
   }
-
 
   button{
 
     padding:9px 18px;
 
     font-size:13px;
-
   }
-
 
   .modal{
 
-    padding:10px;
-
+    padding:8px;
   }
-
 
   .modal-box{
 
-    max-height:94vh;
-
+    max-height:95vh;
   }
 
 }
@@ -1046,7 +862,6 @@ footer{
 </style>
 
 </head>
-
 
 
 <body>
@@ -1062,24 +877,18 @@ footer{
 <header>
 
   <div class="eyebrow">
-
-    Ensemble Stars Units 製作by Hashita
-
+     Ensemble Stars Units 製作 by Hashita
   </div>
 
-
   <h1>
-
-    猜猜他們分別是哪一團的吧！
-
+    猜猜他們各自是在哪一個團體吧！
   </h1>
 
-
   <p class="sub">
+    點擊團體列選擇你認為屬於該團體的偶像
 
-    點擊團體列即可選擇你認為屬於該團體的偶像。
-    注意有兩位角色是重複出現在兩個團體之中！（可以從角色池2中選擇）
-
+    <br>
+    有兩名偶像會重複在不同的團體，選擇時請在偶像一覽2當中選擇
   </p>
 
 </header>
@@ -1093,23 +902,15 @@ footer{
 <div class="controls">
 
   <button id="exportBtn">
-
     匯出成 PNG
-
   </button>
-
 
   <button id="resetBtn">
-
     全部重設
-
   </button>
 
-
   <button id="answerBtn">
-
     查看答案
-
   </button>
 
 </div>
@@ -1125,86 +926,26 @@ footer{
 
 
 <!-- =========================================================
-     偶像池
+     下方唯一的角色預覽池
      ========================================================= -->
 
 <div class="pool-section">
 
-
   <div class="section-label">
-
-    偶像池
-
+    偶像一覽
   </div>
-
-
-
-  <!-- Tabs -->
-
-  <div class="pool-tabs">
-
-    <button
-      class="pool-tab active"
-      data-pool="pool1Content"
-    >
-
-      偶像池 1
-
-    </button>
-
-
-    <button
-      class="pool-tab"
-      data-pool="pool2Content"
-    >
-
-      偶像池 2
-
-    </button>
-
-  </div>
-
-
-
-  <!-- Pool 1 -->
 
   <div
-    id="pool1Content"
-    class="pool-content active"
-  >
-
-    <div
-      id="pool1"
-      class="pool"
-    ></div>
-
-  </div>
-
-
-
-  <!-- Pool 2 -->
-
-  <div
-    id="pool2Content"
-    class="pool-content"
-  >
-
-    <div
-      id="pool2"
-      class="pool"
-    ></div>
-
-  </div>
-
+    id="previewPool"
+    class="preview-pool"
+  ></div>
 
 </div>
 
 
 
 <footer>
-
   點擊團體列選擇偶像 ・ 點擊已放入的偶像即可移除
-
 </footer>
 
 
@@ -1213,7 +954,7 @@ footer{
 
 
 <!-- =========================================================
-     Character Selection Modal
+     角色選擇 Modal
      ========================================================= -->
 
 <div
@@ -1221,32 +962,50 @@ footer{
   class="modal"
 >
 
-
   <div class="modal-box">
 
 
-    <div class="modal-header">
+    <!-- Header -->
 
+    <div class="modal-header">
 
       <h2
         id="modalTitle"
         class="modal-title"
       >
-
         選擇偶像
-
       </h2>
-
 
       <button
         id="modalClose"
         class="modal-close"
       >
-
         ×
-
       </button>
 
+    </div>
+
+
+
+    <!-- =====================================================
+         只有這裡有偶像池 1 / 偶像池 2
+         ===================================================== -->
+
+    <div class="modal-tabs">
+
+      <button
+        class="modal-tab active"
+        data-pool="pool1"
+      >
+        偶像一覽 1
+      </button>
+
+      <button
+        class="modal-tab"
+        data-pool="pool2"
+      >
+        偶像一覽 2
+      </button>
 
     </div>
 
@@ -1254,13 +1013,16 @@ footer{
 
     <div class="modal-body">
 
-
       <div
         id="characterGrid"
         class="character-grid"
       ></div>
 
+    </div>
 
+
+    <div class="modal-note">
+      偶像1：已使用的角色不能再次選擇　｜　偶像2：挑選重複的角色
     </div>
 
 
@@ -1274,7 +1036,7 @@ footer{
 
 
 /* =========================================================
-   團體資料
+   團體
    ========================================================= */
 
 const GROUPS = [
@@ -1325,7 +1087,7 @@ const GROUPS = [
   },
 
   {
-    name:"Ra*bits (5)",
+    name:"Ra*bits (4)",
     color:"#ffb3c6"
   },
 
@@ -1335,7 +1097,7 @@ const GROUPS = [
   },
 
   {
-    name:"Knights (4)",
+    name:"Knights (5)",
     color:"#7ea8ff"
   },
 
@@ -1369,7 +1131,7 @@ const GROUPS = [
 
 
 /* =========================================================
-   57 個角色
+   角色
    ========================================================= */
 
 const IDOLS = [
@@ -1727,22 +1489,14 @@ const IDOLS = [
 const tierlistEl =
   document.getElementById("tierlist");
 
-
-const pool1El =
-  document.getElementById("pool1");
-
-
-const pool2El =
-  document.getElementById("pool2");
-
+const previewPoolEl =
+  document.getElementById("previewPool");
 
 const modal =
   document.getElementById("characterModal");
 
-
 const modalTitle =
   document.getElementById("modalTitle");
-
 
 const characterGrid =
   document.getElementById("characterGrid");
@@ -1751,12 +1505,19 @@ const characterGrid =
 let currentRow = null;
 
 
-/* =========================================================
-   用 Set 記錄「偶像池 1」已經使用過的人
-   ========================================================= */
+/*
+   偶像池 1 已經使用的人
+*/
 
 const usedPool1 =
   new Set();
+
+
+/*
+   Modal 目前在哪一個池
+*/
+
+let activePool = "pool1";
 
 
 
@@ -1769,241 +1530,152 @@ function buildRows(){
   tierlistEl.innerHTML = "";
 
 
-  GROUPS.forEach((group,index) => {
+  GROUPS.forEach(
+    (group,index) => {
 
-    const row =
-      document.createElement("div");
+      const row =
+        document.createElement("div");
 
-
-    row.className = "row";
-
-
-    row.innerHTML = `
-
-      <div
-        class="row-label"
-        style="background:${group.color}"
-      >
-
-        ${group.name}
-
-      </div>
+      row.className =
+        "row";
 
 
-      <div
-        class="row-drop"
-        data-row-index="${index}"
-      ></div>
+      row.innerHTML = `
 
-    `;
+        <div
+          class="row-label"
+          style="background:${group.color}"
+        >
+          ${group.name}
+        </div>
+
+        <div
+          class="row-drop"
+          data-row-index="${index}"
+        ></div>
+
+      `;
 
 
-    const dropZone =
-      row.querySelector(".row-drop");
+      const drop =
+        row.querySelector(
+          ".row-drop"
+        );
 
 
-    /*
-       點擊整個 Tier 區域
-       打開角色選擇器
-    */
+      /*
+         點擊 Tier 區域
+         開啟角色選擇
+      */
 
-    dropZone.addEventListener(
-      "click",
-      function(e){
+      drop.addEventListener(
+        "click",
+        function(e){
 
-        /*
-           如果點的是已放入的角色，
-           由角色自己的事件處理。
-        */
+          /*
+             如果點到角色，
+             角色自己會處理移除。
+          */
 
-        if(
-          e.target.closest(".tier-item")
-        ){
+          if(
+            e.target.closest(
+              ".tier-item"
+            )
+          ){
 
-          return;
+            return;
+
+          }
+
+
+          openModal(
+            drop,
+            group.name
+          );
 
         }
-
-
-        openCharacterModal(
-          dropZone,
-          group.name
-        );
-
-      }
-    );
-
-
-    tierlistEl.appendChild(row);
-
-  });
-
-}
-
-
-
-/* =========================================================
-   建立偶像池 1
-   ========================================================= */
-
-function buildPool1(){
-
-  pool1El.innerHTML = "";
-
-
-  IDOLS.forEach(idol => {
-
-    const item =
-      createPoolItem(
-        idol,
-        "pool1"
       );
 
 
-    pool1El.appendChild(item);
-
-  });
-
-}
-
-
-
-/* =========================================================
-   建立偶像池 2
-   ========================================================= */
-
-function buildPool2(){
-
-  pool2El.innerHTML = "";
-
-
-  IDOLS.forEach(idol => {
-
-    const item =
-      createPoolItem(
-        idol,
-        "pool2"
+      tierlistEl.appendChild(
+        row
       );
-
-
-    pool2El.appendChild(item);
-
-  });
-
-}
-
-
-
-/* =========================================================
-   建立池中的角色
-   ========================================================= */
-
-function createPoolItem(
-  idol,
-  poolType
-){
-
-  const item =
-    document.createElement("div");
-
-
-  item.className =
-    "pool-item";
-
-
-  item.dataset.id =
-    idol.id;
-
-
-  item.innerHTML = `
-
-    <img
-      src="${idol.img}"
-      alt="${idol.name}"
-      onerror="
-        this.replaceWith(
-          Object.assign(
-            document.createElement('div'),
-            {
-              textContent:'🎤',
-              style:'font-size:22px'
-            }
-          )
-        )
-      "
-    >
-
-  `;
-
-
-  /*
-     偶像池 1：
-     已使用角色不可再次選
-  */
-
-  if(
-    poolType === "pool1" &&
-    usedPool1.has(idol.id)
-  ){
-
-    item.classList.add("used");
-
-  }
-
-
-  item.addEventListener(
-    "click",
-    () => {
-
-      /*
-         池 1 已使用 → 不做任何事
-      */
-
-      if(
-        poolType === "pool1" &&
-        usedPool1.has(idol.id)
-      ){
-
-        return;
-
-      }
-
-
-      /*
-         如果 Modal 是開著的，
-         代表正在選角色。
-      */
-
-      if(
-        modal.classList.contains("open") &&
-        currentRow
-      ){
-
-        addCharacterToRow(
-          currentRow,
-          idol,
-          poolType
-        );
-
-        return;
-
-      }
 
     }
   );
 
+}
 
-  return item;
+
+
+/* =========================================================
+   建立下方預覽池
+   ========================================================= */
+
+function buildPreviewPool(){
+
+  previewPoolEl.innerHTML = "";
+
+
+  IDOLS.forEach(
+    idol => {
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "preview-item";
+
+
+      item.innerHTML = `
+
+        <div class="preview-image">
+
+          <img
+            src="${idol.img}"
+            alt="${idol.name}"
+            onerror="
+              this.replaceWith(
+                Object.assign(
+                  document.createElement('div'),
+                  {
+                    textContent:'🎤',
+                    style:'font-size:22px;display:flex;align-items:center;justify-content:center;width:100%;height:100%;'
+                  }
+                )
+              )
+            "
+          >
+
+        </div>
+
+        <div class="preview-name">
+          ${idol.name}
+        </div>
+
+      `;
+
+
+      /*
+         預覽池完全不能互動
+      */
+
+      previewPoolEl.appendChild(
+        item
+      );
+
+    }
+  );
 
 }
 
 
 
 /* =========================================================
-   開啟角色選擇視窗
+   開啟 Modal
    ========================================================= */
 
-function openCharacterModal(
+function openModal(
   row,
   groupName
 ){
@@ -2015,7 +1687,7 @@ function openCharacterModal(
     "選擇偶像 → " + groupName;
 
 
-  renderCharacterChoices();
+  renderCharacters();
 
 
   modal.classList.add(
@@ -2052,138 +1724,176 @@ function closeModal(){
 
 
 /* =========================================================
-   顯示角色選擇
+   切換 Modal 裡的偶像池
    ========================================================= */
 
-function renderCharacterChoices(){
+document
+  .querySelectorAll(
+    ".modal-tab"
+  )
+  .forEach(tab => {
 
-  characterGrid.innerHTML = "";
+    tab.addEventListener(
+      "click",
+      () => {
 
-
-  /*
-     這裡按照目前正在使用的 Pool
-     決定是否限制已使用角色。
-
-     偶像池 1：
-       已使用 → 不可選
-
-     偶像池 2：
-       全部都可以選
-  */
-
-  const activePool =
-    document.querySelector(
-      ".pool-tab.active"
-    );
+        activePool =
+          tab.dataset.pool;
 
 
-  const poolType =
-    activePool.dataset.pool ===
-    "pool1Content"
-      ? "pool1"
-      : "pool2";
+        document
+          .querySelectorAll(
+            ".modal-tab"
+          )
+          .forEach(t => {
+
+            t.classList.remove(
+              "active"
+            );
+
+          });
 
 
-  let availableCount = 0;
+        tab.classList.add(
+          "active"
+        );
 
 
-  IDOLS.forEach(idol => {
+        renderCharacters();
 
-    const option =
-      document.createElement(
-        "div"
-      );
-
-
-    option.className =
-      "character-option";
-
-
-    const isUsed =
-      poolType === "pool1" &&
-      usedPool1.has(idol.id);
-
-
-    if(isUsed){
-
-      option.classList.add(
-        "used"
-      );
-
-    }
-    else{
-
-      availableCount++;
-
-    }
-
-
-    option.innerHTML = `
-
-      <div class="character-image">
-
-        <img
-          src="${idol.img}"
-          alt="${idol.name}"
-          onerror="
-            this.replaceWith(
-              Object.assign(
-                document.createElement('div'),
-                {
-                  textContent:'🎤',
-                  style:'font-size:24px'
-                }
-              )
-            )
-          "
-        >
-
-      </div>
-
-
-      <div class="character-name">
-
-        ${idol.name}
-
-      </div>
-
-    `;
-
-
-    if(!isUsed){
-
-      option.addEventListener(
-        "click",
-        () => {
-
-          addCharacterToRow(
-            currentRow,
-            idol,
-            poolType
-          );
-
-        }
-      );
-
-    }
-
-
-    characterGrid.appendChild(
-      option
+      }
     );
 
   });
 
 
+
+/* =========================================================
+   顯示角色
+   ========================================================= */
+
+function renderCharacters(){
+
+  characterGrid.innerHTML = "";
+
+
+  let available = 0;
+
+
+  IDOLS.forEach(
+    idol => {
+
+      const option =
+        document.createElement(
+          "div"
+        );
+
+
+      option.className =
+        "character-option";
+
+
+      /*
+         池 1：
+         已經使用過 → disabled
+
+         池 2：
+         全部都能使用
+      */
+
+      const used =
+        activePool === "pool1" &&
+        usedPool1.has(
+          idol.id
+        );
+
+
+      if(used){
+
+        option.classList.add(
+          "used"
+        );
+
+      }
+      else{
+
+        available++;
+
+      }
+
+
+      option.innerHTML = `
+
+        <div class="character-image">
+
+          <img
+            src="${idol.img}"
+            alt="${idol.name}"
+            onerror="
+              this.replaceWith(
+                Object.assign(
+                  document.createElement('div'),
+                  {
+                    textContent:'🎤',
+                    style:'font-size:24px;display:flex;align-items:center;justify-content:center;width:100%;height:100%;'
+                  }
+                )
+              )
+            "
+          >
+
+        </div>
+
+        <div class="character-name">
+          ${idol.name}
+        </div>
+
+      `;
+
+
+      if(!used){
+
+        option.addEventListener(
+          "click",
+          () => {
+
+            addCharacter(
+              currentRow,
+              idol,
+              activePool
+            );
+
+          }
+        );
+
+      }
+
+
+      characterGrid.appendChild(
+        option
+      );
+
+    }
+  );
+
+
   if(
-    availableCount === 0
+    available === 0
   ){
 
     characterGrid.innerHTML = `
 
-      <div class="no-character">
+      <div
+        class="no-character"
+        style="
+          grid-column:1/-1;
+          text-align:center;
+          padding:40px 10px;
+          color:#000000;
+        "
+      >
 
-        偶像池 1 的角色都已經使用過了。
+        偶像池 1 已經全部使用完畢。
 
       </div>
 
@@ -2196,13 +1906,13 @@ function renderCharacterChoices(){
 
 
 /* =========================================================
-   把角色加入 Tier
+   加入角色
    ========================================================= */
 
-function addCharacterToRow(
+function addCharacter(
   row,
   idol,
-  poolType
+  pool
 ){
 
   if(!row){
@@ -2213,14 +1923,14 @@ function addCharacterToRow(
 
 
   /*
-     偶像池 1：
-
-     一個角色只能使用一次。
+     池 1 防止重複
   */
 
   if(
-    poolType === "pool1" &&
-    usedPool1.has(idol.id)
+    pool === "pool1" &&
+    usedPool1.has(
+      idol.id
+    )
   ){
 
     return;
@@ -2233,7 +1943,9 @@ function addCharacterToRow(
   */
 
   const item =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
 
   item.className =
@@ -2245,7 +1957,7 @@ function addCharacterToRow(
 
 
   item.dataset.pool =
-    poolType;
+    pool;
 
 
   item.innerHTML = `
@@ -2271,8 +1983,7 @@ function addCharacterToRow(
 
 
   /*
-     點擊 Tier 裡面的角色
-     → 移除
+     點角色 → 移除
   */
 
   item.addEventListener(
@@ -2281,10 +1992,11 @@ function addCharacterToRow(
 
       e.stopPropagation();
 
-      removeCharacterFromRow(
+
+      removeCharacter(
         item,
         idol,
-        poolType
+        pool
       );
 
     }
@@ -2297,25 +2009,19 @@ function addCharacterToRow(
 
 
   /*
-     池 1 記錄成已使用
+     池 1 記錄使用
   */
 
   if(
-    poolType === "pool1"
+    pool === "pool1"
   ){
 
     usedPool1.add(
       idol.id
     );
 
-    updatePool1Visuals();
-
   }
 
-
-  /*
-     加入後關閉視窗
-  */
 
   closeModal();
 
@@ -2327,10 +2033,10 @@ function addCharacterToRow(
    移除角色
    ========================================================= */
 
-function removeCharacterFromRow(
+function removeCharacter(
   item,
   idol,
-  poolType
+  pool
 ){
 
   item.remove();
@@ -2338,19 +2044,16 @@ function removeCharacterFromRow(
 
   /*
      如果是池 1，
-     解除「已使用」狀態
+     移除後重新變成可選
   */
 
   if(
-    poolType === "pool1"
+    pool === "pool1"
   ){
 
     usedPool1.delete(
       idol.id
     );
-
-
-    updatePool1Visuals();
 
   }
 
@@ -2359,102 +2062,7 @@ function removeCharacterFromRow(
 
 
 /* =========================================================
-   更新偶像池 1 的灰掉狀態
-   ========================================================= */
-
-function updatePool1Visuals(){
-
-  document
-    .querySelectorAll(
-      "#pool1 .pool-item"
-    )
-    .forEach(item => {
-
-      const id =
-        item.dataset.id;
-
-
-      if(
-        usedPool1.has(id)
-      ){
-
-        item.classList.add(
-          "used"
-        );
-
-      }
-      else{
-
-        item.classList.remove(
-          "used"
-        );
-
-      }
-
-    });
-
-}
-
-
-
-/* =========================================================
-   Tabs
-   ========================================================= */
-
-document
-  .querySelectorAll(
-    ".pool-tab"
-  )
-  .forEach(tab => {
-
-    tab.addEventListener(
-      "click",
-      () => {
-
-        document
-          .querySelectorAll(
-            ".pool-tab"
-          )
-          .forEach(t =>
-            t.classList.remove(
-              "active"
-            )
-          );
-
-
-        tab.classList.add(
-          "active"
-        );
-
-
-        document
-          .querySelectorAll(
-            ".pool-content"
-          )
-          .forEach(content =>
-            content.classList.remove(
-              "active"
-            )
-          );
-
-
-        document
-          .getElementById(
-            tab.dataset.pool
-          )
-          .classList.add(
-            "active"
-          );
-
-      }
-    );
-
-  });
-
-
-
-/* =========================================================
-   Modal 關閉
+   關閉按鈕
    ========================================================= */
 
 document
@@ -2469,12 +2077,12 @@ document
 
 
 /*
-   點擊黑色背景也可以關閉
+   點擊背景關閉
 */
 
 modal.addEventListener(
   "click",
-  (e) => {
+  function(e){
 
     if(
       e.target === modal
@@ -2490,12 +2098,12 @@ modal.addEventListener(
 
 
 /*
-   ESC 關閉
+   ESC
 */
 
 document.addEventListener(
   "keydown",
-  (e) => {
+  function(e){
 
     if(
       e.key === "Escape"
@@ -2520,48 +2128,33 @@ document
   )
   .addEventListener(
     "click",
-    () => {
+    function(){
 
-      const confirmed =
-        confirm(
+      if(
+        !confirm(
           "確定要清空所有已放入的偶像嗎？"
-        );
-
-
-      if(!confirmed){
+        )
+      ){
 
         return;
 
       }
 
 
-      /*
-         清空 Tier
-      */
-
       document
         .querySelectorAll(
           ".row-drop"
         )
-        .forEach(row => {
+        .forEach(
+          row => {
 
-          row.innerHTML = "";
+            row.innerHTML = "";
 
-        });
+          }
+        );
 
-
-      /*
-         清空池 1 使用紀錄
-      */
 
       usedPool1.clear();
-
-
-      /*
-         更新池 1
-      */
-
-      updatePool1Visuals();
 
     }
   );
@@ -2578,7 +2171,7 @@ document
   )
   .addEventListener(
     "click",
-    async () => {
+    async function(){
 
       const btn =
         document.getElementById(
@@ -2599,10 +2192,6 @@ document
 
 
       try{
-
-        /*
-           暫時隱藏游標效果
-        */
 
         const canvas =
           await html2canvas(
@@ -2642,7 +2231,6 @@ document
 
       }
 
-
       catch(error){
 
         alert(
@@ -2651,7 +2239,6 @@ document
         );
 
       }
-
 
       finally{
 
@@ -2670,7 +2257,7 @@ document
 
 
 /* =========================================================
-   查看答案
+   答案
    ========================================================= */
 
 document
@@ -2679,7 +2266,7 @@ document
   )
   .addEventListener(
     "click",
-    () => {
+    function(){
 
       window.open(
         "images2/answer.png",
@@ -2697,9 +2284,7 @@ document
 
 buildRows();
 
-buildPool1();
-
-buildPool2();
+buildPreviewPool();
 
 </script>
 
