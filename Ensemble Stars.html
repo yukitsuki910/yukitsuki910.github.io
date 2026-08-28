@@ -1708,6 +1708,287 @@ function makeDraggable(el){
                 ".row-drop, #pool, #pool2"
               )
             : null;
+                getDropZones().forEach(z => {
+
+          z.classList.remove(
+            "hover"
+          );
+
+        });
+
+
+
+        el.classList.remove(
+          "dragging"
+        );
+
+
+        el.style.position =
+          "";
+
+
+        el.style.left =
+          "";
+
+
+        el.style.top =
+          "";
+
+
+        el.style.width =
+          "";
+
+
+        el.style.height =
+          "";
+
+
+
+        if(zone){
+
+          zone.appendChild(
+            el
+          );
+
+        }
+        else{
+
+          startParent.insertBefore(
+            el,
+            placeholder
+          );
+
+        }
+
+
+        placeholder.remove();
+
+      }
+
+
+
+      el.addEventListener(
+        "pointermove",
+        onMove
+      );
+
+
+      el.addEventListener(
+        "pointerup",
+        onUp
+      );
+
+
+      el.addEventListener(
+        "pointercancel",
+        onUp
+      );
+
+    }
+
+  );
+
+}
+
+
+
+/* =========================================================
+   匯出 PNG
+   ========================================================= */
+
+document
+  .getElementById("exportBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const btn =
+        document.getElementById(
+          "exportBtn"
+        );
+
+
+      const originalText =
+        btn.textContent;
+
+
+      btn.textContent =
+        "產生圖片中…";
+
+
+      btn.disabled = true;
+
+
+
+      try{
+
+        const canvas =
+          await html2canvas(
+            tierlistEl,
+            {
+
+              backgroundColor:
+                "#ffffff",
+
+              scale:2,
+
+              useCORS:true
+
+            }
+          );
+
+
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.download =
+          "idol-tierlist.png";
+
+
+        link.href =
+          canvas.toDataURL(
+            "image/png"
+          );
+
+
+        link.click();
+
+      }
+
+
+      catch(err){
+
+        alert(
+          "匯出失敗："
+          + err.message
+        );
+
+      }
+
+
+      finally{
+
+        btn.textContent =
+          originalText;
+
+
+        btn.disabled = false;
+
+      }
+
+    }
+  );
+
+
+
+/* =========================================================
+   全部重設
+   ========================================================= */
+
+document
+  .getElementById("resetBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      buildPool();
+
+      buildPool2();
+
+    }
+  );
+
+
+
+/* =========================================================
+   查看答案
+   =========================================================
+
+   請把答案圖片放在：
+
+   /images2/answer.png
+
+   點擊按鈕後會在新分頁開啟。
+   ========================================================= */
+
+document
+  .getElementById("answerBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.open(
+        "images2/answer.png",
+        "_blank"
+      );
+
+    }
+  );
+
+
+
+/* =========================================================
+   角色池 2 折疊
+   ========================================================= */
+
+const pool2Toggle =
+  document.getElementById(
+    "pool2Toggle"
+  );
+
+
+const pool2Content =
+  document.getElementById(
+    "pool2Content"
+  );
+
+
+const pool2Arrow =
+  document.getElementById(
+    "pool2Arrow"
+  );
+
+
+
+pool2Toggle.addEventListener(
+  "click",
+  () => {
+
+    const isOpen =
+      pool2Content.classList.toggle(
+        "open"
+      );
+
+
+    pool2Arrow.textContent =
+      isOpen
+        ? "▾"
+        : "▸";
+
+  }
+);
+
+
+
+/* =========================================================
+   啟動
+   ========================================================= */
+
+buildRows();
+
+buildPool();
+
+buildPool2();
+
+</script>
+
+</body>
+
+</html>
 
 
 
