@@ -1,646 +1,1382 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>偶像夢幻祭 偶像分團</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;900&family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;900&family=Baloo+2:wght@500;700;800&display=swap"
+  rel="stylesheet"
+>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+
 <style>
-  :root{
-    --bg:#ffffff;
-    --card:#231a3d;
-    --card-2:#2c2050;
-    --gold:#ffc857;
-    --magenta:#ff5da2;
-    --cyan:#5eead4;
 
-    /* 所有文字統一黑色 */
-    --text:#000000;
-    --muted:#000000;
+/* =========================================================
+   基本設定
+   ========================================================= */
 
-    /* 線條顏色 */
-    --line:rgba(0,0,0,.20);
-  }
+:root{
 
-  *{
-    box-sizing:border-box;
-  }
+  --bg:#ffffff;
 
-  html,body{
-    margin:0;
-    padding:0;
-  }
+  --text:#000000;
+
+  --line:#000000;
+
+  --muted:#000000;
+
+}
+
+
+/* 全域 */
+
+*{
+  box-sizing:border-box;
+}
+
+
+html,
+body{
+  margin:0;
+  padding:0;
+}
+
+
+body{
+
+  min-height:100vh;
+
+  background:#ffffff;
+
+  color:#000000;
+
+  font-family:'Noto Sans TC',sans-serif;
+
+  padding:24px 16px 100px;
+
+  -webkit-user-select:none;
+  user-select:none;
+
+}
+
+
+.wrap{
+
+  max-width:1080px;
+
+  margin:0 auto;
+
+}
+
+
+/* =========================================================
+   標題
+   ========================================================= */
+
+header{
+
+  text-align:center;
+
+  margin-bottom:22px;
+
+}
+
+
+.eyebrow{
+
+  font-family:'Baloo 2',sans-serif;
+
+  letter-spacing:.35em;
+
+  font-size:12px;
+
+  color:#000000;
+
+  text-transform:uppercase;
+
+  margin-bottom:8px;
+
+}
+
+
+h1{
+
+  font-weight:900;
+
+  font-size:clamp(24px,5vw,38px);
+
+  margin:0 0 10px;
+
+  /*
+     取消原本的文字漸層
+  */
+
+  color:#000000;
+
+  line-height:1.3;
+
+}
+
+
+p.sub{
+
+  color:#000000;
+
+  font-size:14px;
+
+  max-width:560px;
+
+  margin:0 auto;
+
+  line-height:1.7;
+
+}
+
+
+/* =========================================================
+   按鈕
+   ========================================================= */
+
+.controls{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:12px;
+
+  margin:22px 0 30px;
+
+  flex-wrap:wrap;
+
+}
+
+
+button{
+
+  font-family:'Baloo 2',sans-serif;
+
+  font-size:14px;
+
+  font-weight:700;
+
+  border:none;
+
+  border-radius:999px;
+
+  padding:11px 24px;
+
+  cursor:pointer;
+
+  transition:
+    transform .15s ease,
+    background .15s ease;
+
+}
+
+
+button:hover{
+
+  transform:translateY(-2px);
+
+}
+
+
+/* 匯出 */
+
+#exportBtn{
+
+  background:#ff5da2;
+
+  color:#000000;
+
+}
+
+
+/* 重設 */
+
+#resetBtn{
+
+  background:#ffffff;
+
+  color:#000000;
+
+  border:2px solid #000000;
+
+}
+
+
+/* 答案 */
+
+#answerBtn{
+
+  background:#5eead4;
+
+  color:#000000;
+
+}
+
+
+/* =========================================================
+   Tier List
+   ========================================================= */
+
+#tierlist{
+
+  background:#ffffff;
+
+  border:2px solid #000000;
+
+  border-radius:18px;
+
+  overflow:hidden;
+
+}
+
+
+/* 每一列 */
+
+.row{
+
+  display:flex;
+
+  min-height:78px;
+
+  border-bottom:2px solid #000000;
+
+}
+
+
+.row:last-child{
+
+  border-bottom:none;
+
+}
+
+
+/* =========================================================
+   左邊團體名稱
+   ========================================================= */
+
+.row-label{
+
+  flex:0 0 110px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  font-family:'Baloo 2',sans-serif;
+
+  font-weight:800;
+
+  font-size:13px;
+
+  line-height:1.3;
+
+  color:#000000;
+
+  padding:8px 6px;
+
+  word-break:keep-all;
+
+  /*
+     左右之間的垂直線
+  */
+
+  border-right:2px solid #000000;
+
+}
+
+
+/* =========================================================
+   角色放置區
+   ========================================================= */
+
+.row-drop{
+
+  flex:1;
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  align-content:center;
+
+  gap:8px;
+
+  padding:8px;
+
+  background:#ffffff;
+
+  min-height:78px;
+
+  transition:background .12s ease;
+
+}
+
+
+.row-drop.hover{
+
+  background:#eeeeee;
+
+}
+
+
+/* =========================================================
+   偶像池
+   ========================================================= */
+
+.pool-section{
+
+  margin-top:26px;
+
+}
+
+
+.section-label{
+
+  font-family:'Baloo 2',sans-serif;
+
+  font-size:13px;
+
+  letter-spacing:.15em;
+
+  color:#000000;
+
+  text-transform:uppercase;
+
+  margin-bottom:10px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+}
+
+
+.section-label::before{
+
+  content:"";
+
+  width:18px;
+
+  height:2px;
+
+  background:#000000;
+
+  display:inline-block;
+
+}
+
+
+/* 偶像池 */
+
+#pool{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  background:#ffffff;
+
+  border:2px dashed rgba(0,0,0,.4);
+
+  border-radius:18px;
+
+  padding:16px;
+
+  min-height:90px;
+
+  transition:background .12s ease;
+
+}
+
+
+#pool.hover{
+
+  background:#eeeeee;
+
+}
+
+
+/* =========================================================
+   角色池 2
+   ========================================================= */
+
+.pool2-section{
+
+  margin-top:18px;
+
+}
+
+
+/* 折疊按鈕 */
+
+.pool2-toggle{
+
+  width:100%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  background:#ffffff;
+
+  color:#000000;
+
+  border:2px solid #000000;
+
+  border-radius:14px;
+
+  padding:10px 16px;
+
+  font-family:'Baloo 2',sans-serif;
+
+  font-size:14px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+}
+
+
+.pool2-toggle:hover{
+
+  background:#f3f3f3;
+
+  transform:none;
+
+}
+
+
+/* 箭頭 */
+
+#pool2Arrow{
+
+  font-size:16px;
+
+}
+
+
+/* 預設收起 */
+
+.pool2-content{
+
+  display:none;
+
+  margin-top:10px;
+
+}
+
+
+/* 展開 */
+
+.pool2-content.open{
+
+  display:block;
+
+}
+
+
+/* 第二角色池 */
+
+#pool2{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  background:#ffffff;
+
+  border:2px dashed rgba(0,0,0,.4);
+
+  border-radius:18px;
+
+  padding:16px;
+
+  min-height:90px;
+
+}
+
+
+/* =========================================================
+   角色卡
+   ========================================================= */
+
+.item{
+
+  width:58px;
+
+  height:58px;
+
+  border-radius:50%;
+
+  overflow:hidden;
+
+  border:2px solid rgba(0,0,0,.25);
+
+  background:#ffffff;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:22px;
+
+  cursor:grab;
+
+  touch-action:none;
+
+  flex-shrink:0;
+
+}
+
+
+.item img{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+
+  pointer-events:none;
+
+}
+
+
+/* 正在拖曳 */
+
+.item.dragging{
+
+  position:fixed;
+
+  z-index:999;
+
+  box-shadow:
+
+    0 10px 30px rgba(0,0,0,.35),
+
+    0 0 0 3px #ffc857;
+
+  cursor:grabbing;
+
+  opacity:.95;
+
+}
+
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+footer{
+
+  text-align:center;
+
+  color:#000000;
+
+  font-size:12px;
+
+  margin-top:30px;
+
+}
+
+
+/* =========================================================
+   手機版
+   ========================================================= */
+
+@media(max-width:600px){
 
   body{
-    min-height:100vh;
 
-    background:
-      radial-gradient(
-        60vw 40vh at 15% -5%,
-        rgba(255,93,162,.12),
-        transparent 60%
-      ),
-      radial-gradient(
-        50vw 40vh at 100% 0%,
-        rgba(94,234,212,.10),
-        transparent 55%
-      ),
-      linear-gradient(
-        180deg,
-        #ffffff,
-        #ffffff 60%,
-        #ffffff
-      );
+    padding:16px 8px 70px;
 
-    color:var(--text);
-
-    font-family:'Noto Sans TC',sans-serif;
-
-    padding:24px 16px 100px;
-
-    -webkit-user-select:none;
-    user-select:none;
   }
 
-  .wrap{
-    max-width:1080px;
-    margin:0 auto;
-  }
-
-
-  /* =========================
-     Header
-     ========================= */
-
-  header{
-    text-align:center;
-    margin-bottom:22px;
-  }
-
-  .eyebrow{
-    font-family:'Baloo 2',sans-serif;
-    letter-spacing:.35em;
-    font-size:12px;
-    color:#000000;
-    text-transform:uppercase;
-    margin-bottom:8px;
-  }
-
-  h1{
-    font-weight:900;
-    font-size:clamp(24px,5vw,38px);
-    margin:0 0 10px;
-
-    /* 原本的漸層文字取消 */
-    color:#000000;
-
-    line-height:1.3;
-  }
-
-  p.sub{
-    color:#000000;
-    font-size:14px;
-    max-width:560px;
-    margin:0 auto;
-    line-height:1.7;
-  }
-
-
-  /* =========================
-     Buttons
-     ========================= */
-
-  .controls{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    margin:22px 0 30px;
-    flex-wrap:wrap;
-  }
-
-  button{
-    font-family:'Baloo 2',sans-serif;
-    font-size:14px;
-    font-weight:700;
-
-    border:none;
-    border-radius:999px;
-
-    padding:11px 24px;
-
-    cursor:pointer;
-
-    transition:
-      transform .15s ease,
-      box-shadow .15s ease;
-  }
-
-  button:hover{
-    transform:translateY(-2px);
-  }
-
-
-  /* 匯出 */
-
-  #exportBtn{
-    background:#ff5da2;
-    color:#000000;
-
-    box-shadow:
-      0 6px 20px rgba(255,93,162,.25);
-  }
-
-
-  /* 重設 */
-
-  #resetBtn{
-    background:#ffffff;
-    color:#000000;
-
-    border:2px solid #000000;
-  }
-
-
-  /* 答案 */
-
-  #answerBtn{
-    background:#5eead4;
-    color:#000000;
-
-    box-shadow:
-      0 6px 20px rgba(94,234,212,.25);
-  }
-
-
-  /* =========================
-     Tier List
-     ========================= */
-
-  #tierlist{
-    background:#ffffff;
-
-    border-radius:18px;
-
-    overflow:hidden;
-
-    /*
-      外框線
-    */
-    border:2px solid #000000;
-  }
-
-
-  .row{
-    display:flex;
-
-    min-height:78px;
-
-    /*
-      每一列的水平分隔線
-    */
-    border-bottom:2px solid #000000;
-  }
-
-  .row:last-child{
-    border-bottom:none;
-  }
-
-
-  /* 左邊團體名稱 */
 
   .row-label{
-    flex:0 0 96px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    flex:0 0 82px;
 
-    text-align:center;
+    font-size:11px;
 
-    font-family:'Baloo 2',sans-serif;
-
-    font-weight:800;
-    font-size:13px;
-    line-height:1.3;
-
-    color:#000000;
-
-    padding:8px 6px;
-
-    word-break:keep-word;
-
-    /*
-      左右區域中間的直線
-    */
-    border-right:2px solid #000000;
   }
 
-
-  /* 右邊角色放置區 */
-
-  .row-drop{
-    flex:1;
-
-    display:flex;
-    flex-wrap:wrap;
-    align-content:center;
-
-    gap:8px;
-
-    padding:8px;
-
-    background:rgba(0,0,0,.02);
-
-    min-height:78px;
-
-    transition:
-      background .12s ease;
-  }
-
-  .row-drop.hover{
-    background:rgba(0,0,0,.08);
-  }
-
-
-  /* =========================
-     Pool
-     ========================= */
-
-  .pool-section{
-    margin-top:26px;
-  }
-
-  .section-label{
-    font-family:'Baloo 2',sans-serif;
-
-    font-size:13px;
-    letter-spacing:.15em;
-
-    color:#000000;
-
-    text-transform:uppercase;
-
-    margin-bottom:10px;
-
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .section-label::before{
-    content:"";
-
-    width:18px;
-    height:2px;
-
-    background:#000000;
-
-    display:inline-block;
-  }
-
-
-  #pool{
-    display:flex;
-    flex-wrap:wrap;
-
-    gap:10px;
-
-    background:rgba(0,0,0,.02);
-
-    /*
-      偶像池外框
-    */
-    border:2px dashed rgba(0,0,0,.35);
-
-    border-radius:18px;
-
-    padding:16px;
-
-    min-height:90px;
-
-    transition:
-      background .12s ease;
-  }
-
-  #pool.hover{
-    background:rgba(0,0,0,.08);
-  }
-
-
-  /* =========================
-     Idol Item
-     ========================= */
 
   .item{
-    width:58px;
-    height:58px;
 
-    border-radius:50%;
+    width:52px;
 
-    overflow:hidden;
+    height:52px;
 
-    border:2px solid rgba(0,0,0,.25);
-
-    background:#ffffff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:22px;
-
-    cursor:grab;
-
-    touch-action:none;
-
-    flex-shrink:0;
-  }
-
-  .item img{
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    display:block;
-
-    pointer-events:none;
   }
 
 
-  .item.dragging{
-    position:fixed;
+  .row-drop{
 
-    z-index:999;
+    gap:5px;
 
-    box-shadow:
-      0 10px 30px rgba(0,0,0,.35),
-      0 0 0 3px #ffc857;
+    padding:6px;
 
-    cursor:grabbing;
-
-    opacity:.95;
   }
 
 
-  /* =========================
-     Footer
-     ========================= */
+  #pool,
+  #pool2{
 
-  footer{
-    text-align:center;
+    gap:7px;
 
-    color:#000000;
+    padding:12px;
 
-    font-size:12px;
-
-    margin-top:30px;
   }
+
+
+  button{
+
+    padding:9px 18px;
+
+    font-size:13px;
+
+  }
+
+}
+
 </style>
+
 </head>
 
 
 <body>
 
+
 <div class="wrap">
 
-  <header>
 
-    <div class="eyebrow">
-      Idol Unit Tier Maker
-    </div>
+<!-- =========================================================
+     標題
+     ========================================================= -->
 
-    <h1>
-      偶像分團 Tier Maker
-    </h1>
+<header>
 
-    <p class="sub">
-      把下面池子裡的偶像拖到你覺得對的團體那一列，
-      排完可以直接匯出成一張圖片分享出去~
-      （有兩個角色會在兩個團體中重複出現喔）
-    </p>
-
-  </header>
-
-
-  <!-- =========================
-       Buttons
-       ========================= -->
-
-  <div class="controls">
-
-    <button id="exportBtn">
-      匯出成 PNG
-    </button>
-
-    <button id="resetBtn">
-      全部重設
-    </button>
-
-    <button id="answerBtn">
-      查看答案
-    </button>
-
+  <div class="eyebrow">
+    Idol Unit Tier Maker
   </div>
 
 
-  <!-- Tier List -->
-
-  <div id="tierlist"></div>
-
-
-  <!-- Idol Pool -->
-
-  <div class="pool-section">
-
-    <div class="section-label">
-      偶像池
-    </div>
-
-    <div id="pool"></div>
-
-  </div>
+  <h1>
+    偶像分團 Tier Maker
+  </h1>
 
 
-  <footer>
-    拖曳排列
-  </footer>
+  <p class="sub">
+
+    把下面池子裡的偶像拖到你覺得對的團體那一列，
+    排完可以直接匯出成一張圖片分享出去。
+    沒有正確答案、單純好玩。
+
+  </p>
+
+</header>
+
+
+
+<!-- =========================================================
+     按鈕
+     ========================================================= -->
+
+<div class="controls">
+
+  <button id="exportBtn">
+    匯出成 PNG
+  </button>
+
+
+  <button id="resetBtn">
+    全部重設
+  </button>
+
+
+  <button id="answerBtn">
+    查看答案
+  </button>
 
 </div>
 
 
+
+<!-- =========================================================
+     Tier List
+     ========================================================= -->
+
+<div id="tierlist"></div>
+
+
+
+<!-- =========================================================
+     角色池 1
+     ========================================================= -->
+
+<div class="pool-section">
+
+  <div class="section-label">
+    偶像池
+  </div>
+
+
+  <div id="pool"></div>
+
+</div>
+
+
+
+<!-- =========================================================
+     角色池 2
+     ========================================================= -->
+
+<div class="pool-section pool2-section">
+
+
+  <button
+    id="pool2Toggle"
+    class="pool2-toggle"
+  >
+
+    角色池 2
+
+    <span id="pool2Arrow">
+      ▸
+    </span>
+
+  </button>
+
+
+  <div
+    id="pool2Content"
+    class="pool2-content"
+  >
+
+    <div id="pool2"></div>
+
+  </div>
+
+</div>
+
+
+
+<footer>
+
+  拖曳排列
+
+</footer>
+
+
+</div>
+
+
+
 <script>
 
-/* =========================================================================
-   資料設定區
-   ========================================================================= */
 
+/* =========================================================
+   團體
+   ========================================================= */
 
 const GROUPS = [
 
-  {name:"fine (4)",                    color:"#ffc857"},
-  {name:"Trickstar (4)",               color:"#ff8a5c"},
-  {name:"流星隊 (5)",                  color:"#ff5da2"},
-  {name:"ALKALOID (4)",                color:"#c084fc"},
-  {name:"Eden (4)",                    color:"#8ec5ff"},
-  {name:"Valkyrie (2)",                color:"#a3a3ff"},
-  {name:"2wink (2)",                   color:"#5eead4"},
-  {name:"Crazy:B (4)",                 color:"#ffd166"},
-  {name:"UNDEAD (4)",                  color:"#b0b0c8"},
-  {name:"Ra*bits (4)",                 color:"#ffb3c6"},
-  {name:"紅月 (4)",                    color:"#ff6b6b"},
-  {name:"Knights (5)",                 color:"#7ea8ff"},
-  {name:"Switch (3)",                  color:"#c9f299"},
-  {name:"MaM (1)",                     color:"#ffa45c"},
-  {name:"Special for Princess! (4)",   color:"#ff9de2"},
-  {name:"MELLOW DEAR US (4)",          color:"#caa06a"},
-  {name:"double face (2)",             color:"#6bd3c7"},
+  {
+    name:"fine (4)",
+    color:"#ffc857"
+  },
+
+  {
+    name:"Trickstar (4)",
+    color:"#ff8a5c"
+  },
+
+  {
+    name:"流星隊 (5)",
+    color:"#ff5da2"
+  },
+
+  {
+    name:"ALKALOID (4)",
+    color:"#c084fc"
+  },
+
+  {
+    name:"Eden (4)",
+    color:"#8ec5ff"
+  },
+
+  {
+    name:"Valkyrie (2)",
+    color:"#a3a3ff"
+  },
+
+  {
+    name:"2wink (2)",
+    color:"#5eead4"
+  },
+
+  {
+    name:"Crazy:B (4)",
+    color:"#ffd166"
+  },
+
+  {
+    name:"UNDEAD (4)",
+    color:"#b0b0c8"
+  },
+
+  {
+    name:"Ra*bits (5)",
+    color:"#ffb3c6"
+  },
+
+  {
+    name:"紅月 (4)",
+    color:"#ff6b6b"
+  },
+
+  {
+    name:"Knights (4)",
+    color:"#7ea8ff"
+  },
+
+  {
+    name:"Switch (3)",
+    color:"#c9f299"
+  },
+
+  {
+    name:"MaM (1)",
+    color:"#ffa45c"
+  },
+
+  {
+    name:"Special for Princess! (4)",
+    color:"#ff9de2"
+  },
+
+  {
+    name:"MELLOW DEAR US (4)",
+    color:"#caa06a"
+  },
+
+  {
+    name:"double face (2)",
+    color:"#6bd3c7"
+  }
 
 ];
 
+
+
+/* =========================================================
+   主要角色池
+   =========================================================
+   
+   這裡全部使用你提供的 /images2/ 檔名。
+   
+   57 個角色。
+   ========================================================= */
 
 const IDOLS = [
 
-  {id:"eichi",   img:"images2/Eichi_ES_Head.webp"},
-  {id:"wataru",  img:"images2/Wataru_ES_Head.webp"},
-  {id:"momo",    img:"images2/Momo_ES_Head.webp"},
-  {id:"yuzuru",  img:"images2/Yuzuru_ES_Head.webp"},
+  /* fine */
 
-  {id:"hokuto",  img:"images2/Hokuto_ES_Head.webp"},
-  {id:"subaru",  img:"images2/Subaru_ES_Head.webp"},
-  {id:"makoto",  img:"images2/Makoto_ES_Head.webp"},
-  {id:"mao",     img:"images2/Mao_ES_Head.webp"},
+  {
+    id:"eichi",
+    img:"images2/Eichi_ES_Head.webp"
+  },
 
-  {id:"chiaki",  img:"images2/Chiaki_ES_Head.webp"},
-  {id:"kanata",  img:"images2/Kanata_ES_Head.webp"},
-  {id:"tetora",  img:"images2/Tetora_ES_Head.webp"},
-  {id:"midori",  img:"images2/Midori_ES_Head.webp"},
-  {id:"shinobu", img:"images2/Shinobu_ES_Head.webp"},
+  {
+    id:"wataru",
+    img:"images2/Wataru_ES_Head.webp"
+  },
 
-  {id:"ichika",  img:"images2/Ichika_ES_Head.webp"},
+  {
+    id:"tori",
+    img:"images2/Tori_ES_Head.webp"
+  },
 
-  {id:"ran",     img:"images2/Ran_ES_Head.webp"},
+  {
+    id:"yuzuru",
+    img:"images2/Yuzuru_ES_Head.webp"
+  },
 
-  {id:"mayoi",   img:"images2/Mayoi_ES_Head.webp"},
 
-  {id:"tsubasa", img:"images2/Tsubasa_ES_Head.webp"},
-  {id:"nagi",    img:"images2/Nagi_ES_Head.webp"},
+  /* Trickstar */
 
-  {id:"hiyori",  img:"images2/Hiyori_ES_Head.webp"},
-  {id:"ibara",   img:"images2/Ibara_ES_Head.webp"},
-  {id:"jun",     img:"images2/Jun_ES_Head.webp"},
+  {
+    id:"hokuto",
+    img:"images2/Hokuto_ES_Head.webp"
+  },
 
-  {id:"shu",     img:"images2/Shu_ES_Head.webp"},
-  {id:"mika",    img:"images2/Mika_ES_Head.webp"},
+  {
+    id:"subaru",
+    img:"images2/Subaru_ES_Head.webp"
+  },
 
-  {id:"hinata",  img:"images2/Hinata_ES_Head.webp"},
-  {id:"yuta",    img:"images2/Yuta_ES_Head.webp"},
+  {
+    id:"makoto",
+    img:"images2/Makoto_ES_Head.webp"
+  },
 
-  {id:"rinne",   img:"images2/Rinne_ES_Head.webp"},
-  {id:"himeru",  img:"images2/Himeru_ES_Head.webp"},
-  {id:"kohaku",  img:"images2/Kohaku_ES_Head.webp"},
-  {id:"niki",    img:"images2/Niki_ES_Head.webp"},
+  {
+    id:"mao",
+    img:"images2/Mao_ES_Head.webp"
+  },
 
-  {id:"rei",     img:"images2/Rei_ES_Head.webp"},
-  {id:"kaoru",   img:"images2/Kaoru_ES_Head.webp"},
-  {id:"koga",    img:"images2/Koga_ES_Head.webp"},
-  {id:"adonis",  img:"images2/Adonis_ES_Head.webp"},
 
-  {id:"tomoya",  img:"images2/Tomoya_ES_Head.webp"},
-  {id:"narumi",  img:"images2/Narumi_ES_Head.webp"},
+  /* 流星隊 */
 
-  {id:"hikaru",  img:"images2/Hikaru_ES_Head.webp"},
-  {id:"hajime",  img:"images2/Hajime_ES_Head.webp"},
+  {
+    id:"chiaki",
+    img:"images2/Chiaki_ES_Head.webp"
+  },
 
-  {id:"keito",   img:"images2/Keito_ES_Head.webp"},
-  {id:"kurou",   img:"images2/Kurou._ES_Head.webp"},
-  {id:"souma",   img:"images2/Souma_ES_Head.webp"},
+  {
+    id:"kanata",
+    img:"images2/Kanata_ES_Head.webp"
+  },
 
-  {id:"ibuki",   img:"images2/Ibuki_ES_Head.webp"},
+  {
+    id:"tetora",
+    img:"images2/Tetora_ES_Head.webp"
+  },
 
-  {id:"tsukasa", img:"images2/Tsukasa_ES_Head.webp"},
-  {id:"leo",     img:"images2/Leo_ES_Head.webp"},
-  {id:"izumi",   img:"images2/Izumi_ES_Head.webp"},
-  {id:"ritsu",   img:"images2/Ritsu_ES_Head.webp"},
-  {id:"arashi",  img:"images2/Arashi_ES_Head.webp"},
+  {
+    id:"midori",
+    img:"images2/Midori_ES_Head.webp"
+  },
 
-  {id:"natsume", img:"images2/Natsume_ES_Head.webp"},
-  {id:"tsumugi", img:"images2/Tsumugi_ES_Head.webp"},
-  {id:"hiro",    img:"images2/Hiro_ES_Head.webp"},
+  {
+    id:"shinobu",
+    img:"images2/Shinobu_ES_Head.webp"
+  },
 
-  {id:"madara",  img:"images2/Madara_ES_Head.webp"},
 
-  {id:"esu",     img:"images2/Esu_ES_Head.webp"},
-  {id:"kanna",   img:"images2/Kanna_ES_Head.webp"},
-  {id:"juice",   img:"images2/Juice_ES_Head.webp"},
-  {id:"nozomi",  img:"images2/Nozomi_ES_Head.webp"},
-  {id:"maju",    img:"images2/Maju_ES_Head.webp"},
-  {id:"chitose", img:"images2/Chitose_ES_Head.webp"},
+  /* ALKALOID */
+
+  {
+    id:"hiiro",
+    img:"images2/Hiiro_ES_Head.webp"
+  },
+
+  {
+    id:"aira",
+    img:"images2/Aira_ES_Head.webp"
+  },
+
+  {
+    id:"mayoi",
+    img:"images2/Mayoi_ES_Head.webp"
+  },
+
+  {
+    id:"tatsumi",
+    img:"images2/Tatsumi_ES_Head.webp"
+  },
+
+
+  /* Eden */
+
+  {
+    id:"nagisa",
+    img:"images2/Nagisa_ES_Head.webp"
+  },
+
+  {
+    id:"hiyori",
+    img:"images2/Hiyori_ES_Head.webp"
+  },
+
+  {
+    id:"ibara",
+    img:"images2/Ibara_ES_Head.webp"
+  },
+
+  {
+    id:"jun",
+    img:"images2/Jun_ES_Head.webp"
+  },
+
+
+  /* Valkyrie */
+
+  {
+    id:"shu",
+    img:"images2/Shu_ES_Head.webp"
+  },
+
+  {
+    id:"mika",
+    img:"images2/Mika_ES_Head.webp"
+  },
+
+
+  /* 2wink */
+
+  {
+    id:"hinata",
+    img:"images2/Hinata_ES_Head.webp"
+  },
+
+  {
+    id:"yuta",
+    img:"images2/Yuta_ES_Head.webp"
+  },
+
+
+  /* Crazy:B */
+
+  {
+    id:"rinne",
+    img:"images2/Rinne_ES_Head.webp"
+  },
+
+  {
+    id:"himeru",
+    img:"images2/HiMERU_ES_Head.webp"
+  },
+
+  {
+    id:"kohaku",
+    img:"images2/Kohaku_ES_Head.webp"
+  },
+
+  {
+    id:"niki",
+    img:"images2/Niki_ES_Head.webp"
+  },
+
+
+  /* UNDEAD */
+
+  {
+    id:"rei",
+    img:"images2/Rei_ES_Head.webp"
+  },
+
+  {
+    id:"kaoru",
+    img:"images2/Kaoru_ES_Head.webp"
+  },
+
+  {
+    id:"koga",
+    img:"images2/Koga_ES_Head.webp"
+  },
+
+  {
+    id:"adonis",
+    img:"images2/Adonis_ES_Head.webp"
+  },
+
+
+  /* Ra*bits */
+
+  {
+    id:"tomoya",
+    img:"images2/Tomoya_ES_Head.webp"
+  },
+
+  {
+    id:"nazuna",
+    img:"images2/Nazuna_ES_Head.webp"
+  },
+
+  {
+    id:"mitsuru",
+    img:"images2/Mitsuru_ES_Head.webp"
+  },
+
+  {
+    id:"hajime",
+    img:"images2/Hajime_ES_Head.webp"
+  },
+
+
+  /* 紅月 */
+
+  {
+    id:"keito",
+    img:"images2/Keito_ES_Head.webp"
+  },
+
+  {
+    id:"kuro",
+    img:"images2/Kuro_ES_Head.webp"
+  },
+
+  {
+    id:"souma",
+    img:"images2/Souma_ES_Head.webp"
+  },
+
+    {
+    id:"ibuki",
+    img:"images2/Ibuki_ES_Head.webp"
+  },
+
+
+  /* Knights */
+
+  {
+    id:"tsukasa",
+    img:"images2/Tsukasa_ES_Head.webp"
+  },
+
+  {
+    id:"leo",
+    img:"images2/Leo_ES_Head.webp"
+  },
+
+  {
+    id:"izumi",
+    img:"images2/Izumi_ES_Head.webp"
+  },
+
+  {
+    id:"ritsu",
+    img:"images2/Ritsu_ES_Head.webp"
+  },
+
+  {
+    id:"arashi",
+    img:"images2/Arashi_ES_Head.webp"
+  },
+
+
+  /* Switch */
+
+  {
+    id:"natsume",
+    img:"images2/Natsume_ES_Head.webp"
+  },
+
+  {
+    id:"tsumugi",
+    img:"images2/Tsumugi_ES_Head.webp"
+  },
+
+  {
+    id:"sora",
+    img:"images2/Sora_ES_Head.webp"
+  },
+
+
+  /* MaM */
+
+  {
+    id:"madara",
+    img:"images2/Madara_ES_Head.webp"
+  },
+
+
+  /* Special for Princess! */
+
+  {
+    id:"esu",
+    img:"images2/Esu_ES_Head.webp"
+  },
+
+  {
+    id:"kanna",
+    img:"images2/Kanna_ES_Head.webp"
+  },
+
+  {
+    id:"nozomi",
+    img:"images2/Nozomi_ES_Head.webp"
+  },
+
+  {
+    id:"raika",
+    img:"images2/Raika_ES_Head.webp"
+  },
+
+
+  /* MELLOW DEAR US */
+
+  {
+    id:"juis",
+    img:"images2/Juis_ES_Head.webp"
+  },
+
+  {
+    id:"mashu",
+    img:"images2/Mashu_ES_Head.webp"
+  },
+
+  {
+    id:"chitose",
+    img:"images2/Chitose_ES_Head.webp"
+  },
+
+  {
+    id:"fuyume",
+    img:"images2/Fuyume_ES_Head.webp"
+  }
 
 ];
 
 
-/* =========================================================================
-   基本設定
-   ========================================================================= */
 
-const tierlistEl = document.getElementById("tierlist");
-const poolEl = document.getElementById("pool");
+/* =========================================================
+   角色池 2
+   =========================================================
+
+   這裡放需要重複出現的角色。
+
+   Kohaku：
+   Crazy:B / double face
+
+   Madara：
+   MaM / double face
+
+   所以第二張可以讓玩家另外放到 double face。
+   ========================================================= */
+
+const IDOLS2 = [
+
+  {
+    id:"kohaku-2",
+    img:"images2/Kohaku_ES_Head.webp"
+  },
+
+  {
+    id:"madara-2",
+    img:"images2/Madara_ES_Head.webp"
+  }
+
+];
 
 
-/* =========================
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const tierlistEl =
+  document.getElementById("tierlist");
+
+
+const poolEl =
+  document.getElementById("pool");
+
+
+const pool2El =
+  document.getElementById("pool2");
+
+
+
+/* =========================================================
    隨機排序
-   ========================= */
+   ========================================================= */
 
 function shuffle(arr){
 
   const a = arr.slice();
 
-  for(let i = a.length - 1; i > 0; i--){
+  for(
+    let i = a.length - 1;
+    i > 0;
+    i--
+  ){
 
-    const j = Math.floor(Math.random() * (i + 1));
+    const j =
+      Math.floor(
+        Math.random() * (i + 1)
+      );
 
-    [a[i], a[j]] = [a[j], a[i]];
+
+    [
+      a[i],
+      a[j]
+    ] = [
+      a[j],
+      a[i]
+    ];
 
   }
 
   return a;
+
 }
 
 
-/* =========================
-   建立 Tier Rows
-   ========================= */
+
+/* =========================================================
+   建立 Tier
+   ========================================================= */
 
 function buildRows(){
 
   tierlistEl.innerHTML = "";
 
+
   GROUPS.forEach(g => {
 
-    const row = document.createElement("div");
+    const row =
+      document.createElement("div");
+
 
     row.className = "row";
 
+
     row.innerHTML = `
+
       <div
         class="row-label"
         style="background:${g.color}"
       >
+
         ${g.name}
+
       </div>
+
 
       <div
         class="row-drop"
         data-drop="row"
       ></div>
+
     `;
+
 
     tierlistEl.appendChild(row);
 
@@ -649,363 +1385,330 @@ function buildRows(){
 }
 
 
-/* =========================
+
+/* =========================================================
+   建立角色卡
+   ========================================================= */
+
+function createItem(idol){
+
+  const el =
+    document.createElement("div");
+
+
+  el.className = "item";
+
+
+  el.dataset.id =
+    idol.id;
+
+
+  el.innerHTML = `
+
+    <img
+      src="${idol.img}"
+      alt="${idol.id}"
+      onerror="
+        this.replaceWith(
+          Object.assign(
+            document.createElement('div'),
+            {
+              textContent:'🎤'
+            }
+          )
+        )
+      "
+    >
+
+  `;
+
+
+  makeDraggable(el);
+
+
+  return el;
+
+}
+
+
+
+/* =========================================================
    建立偶像池
-   ========================= */
+   ========================================================= */
 
 function buildPool(){
 
   poolEl.innerHTML = "";
 
+
   shuffle(IDOLS).forEach(idol => {
 
-    const el = document.createElement("div");
-
-    el.className = "item";
-
-    el.dataset.id = idol.id;
-
-    el.innerHTML = `
-      <img
-        src="${idol.img}"
-        alt="${idol.id}"
-        onerror="
-          this.replaceWith(
-            Object.assign(
-              document.createElement('div'),
-              {textContent:'🎤'}
-            )
-          )
-        "
-      >
-    `;
-
-    poolEl.appendChild(el);
-
-    makeDraggable(el);
+    poolEl.appendChild(
+      createItem(idol)
+    );
 
   });
 
 }
 
 
-/* =========================================================================
-   Drag Logic
-   ========================================================================= */
+
+/* =========================================================
+   建立角色池 2
+   ========================================================= */
+
+function buildPool2(){
+
+  pool2El.innerHTML = "";
+
+
+  shuffle(IDOLS2).forEach(idol => {
+
+    pool2El.appendChild(
+      createItem(idol)
+    );
+
+  });
+
+}
+
+
+
+/* =========================================================
+   找出所有可以放角色的區域
+   ========================================================= */
 
 function getDropZones(){
 
   return [
-    ...document.querySelectorAll(".row-drop"),
-    poolEl
+
+    ...document.querySelectorAll(
+      ".row-drop"
+    ),
+
+    poolEl,
+
+    pool2El
+
   ];
 
 }
 
 
+
+/* =========================================================
+   拖曳系統
+   ========================================================= */
+
 function makeDraggable(el){
 
   let offsetX = 0;
+
   let offsetY = 0;
 
   let startParent = null;
+
   let placeholder = null;
 
 
-  el.addEventListener("pointerdown", (e) => {
+  el.addEventListener(
+    "pointerdown",
+    (e) => {
 
-    e.preventDefault();
-
-    const rect = el.getBoundingClientRect();
-
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-
-    startParent = el.parentElement;
+      e.preventDefault();
 
 
-    /* Placeholder */
-
-    placeholder = document.createElement("div");
-
-    placeholder.style.width = rect.width + "px";
-    placeholder.style.height = rect.height + "px";
-    placeholder.style.flexShrink = "0";
-
-    startParent.insertBefore(
-      placeholder,
-      el
-    );
+      const rect =
+        el.getBoundingClientRect();
 
 
-    /* 拖曳中的元素 */
-
-    el.style.width = rect.width + "px";
-    el.style.height = rect.height + "px";
-
-    el.style.left = rect.left + "px";
-    el.style.top = rect.top + "px";
-
-    el.classList.add("dragging");
-
-    document.body.appendChild(el);
+      offsetX =
+        e.clientX - rect.left;
 
 
-    el.setPointerCapture(e.pointerId);
+      offsetY =
+        e.clientY - rect.top;
 
 
-    /* =========================
-       Move
-       ========================= */
+      startParent =
+        el.parentElement;
 
-    function onMove(ev){
+
+
+      /* 建立佔位 */
+
+      placeholder =
+        document.createElement("div");
+
+
+      placeholder.style.width =
+        rect.width + "px";
+
+
+      placeholder.style.height =
+        rect.height + "px";
+
+
+      placeholder.style.flexShrink =
+        "0";
+
+
+      startParent.insertBefore(
+        placeholder,
+        el
+      );
+
+
+
+      /* 變成浮動拖曳 */
+
+      el.style.width =
+        rect.width + "px";
+
+
+      el.style.height =
+        rect.height + "px";
+
 
       el.style.left =
-        (ev.clientX - offsetX) + "px";
+        rect.left + "px";
+
 
       el.style.top =
-        (ev.clientY - offsetY) + "px";
+        rect.top + "px";
 
 
-      el.style.visibility = "hidden";
-
-      const under =
-        document.elementFromPoint(
-          ev.clientX,
-          ev.clientY
-        );
-
-      el.style.visibility = "visible";
-
-
-      const zone =
-        under
-          ? under.closest(".row-drop, #pool")
-          : null;
-
-
-      getDropZones().forEach(z =>
-        z.classList.remove("hover")
+      el.classList.add(
+        "dragging"
       );
 
 
-      if(zone){
-
-        zone.classList.add("hover");
-
-      }
-
-    }
-
-
-    /* =========================
-       Drop
-       ========================= */
-
-    function onUp(ev){
-
-      el.releasePointerCapture(
-        ev.pointerId
-      );
-
-      el.removeEventListener(
-        "pointermove",
-        onMove
-      );
-
-      el.removeEventListener(
-        "pointerup",
-        onUp
-      );
-
-      el.removeEventListener(
-        "pointercancel",
-        onUp
+      document.body.appendChild(
+        el
       );
 
 
-      el.style.visibility = "hidden";
-
-      const under =
-        document.elementFromPoint(
-          ev.clientX,
-          ev.clientY
-        );
-
-      el.style.visibility = "visible";
-
-
-      const zone =
-        under
-          ? under.closest(".row-drop, #pool")
-          : null;
-
-
-      getDropZones().forEach(z =>
-        z.classList.remove("hover")
+      el.setPointerCapture(
+        e.pointerId
       );
 
 
-      el.classList.remove("dragging");
 
-      el.style.position = "";
-      el.style.left = "";
-      el.style.top = "";
-      el.style.width = "";
-      el.style.height = "";
+      /* =================================================
+         移動
+         ================================================= */
 
+      function onMove(ev){
 
-      if(zone){
-
-        zone.appendChild(el);
-
-      }else{
-
-        startParent.insertBefore(
-          el,
-          placeholder
-        );
-
-      }
+        el.style.left =
+          (
+            ev.clientX - offsetX
+          ) + "px";
 
 
-      placeholder.remove();
-
-    }
-
-
-    el.addEventListener(
-      "pointermove",
-      onMove
-    );
-
-    el.addEventListener(
-      "pointerup",
-      onUp
-    );
-
-    el.addEventListener(
-      "pointercancel",
-      onUp
-    );
-
-  });
-
-}
+        el.style.top =
+          (
+            ev.clientY - offsetY
+          ) + "px";
 
 
-/* =========================================================================
-   匯出 PNG
-   ========================================================================= */
-
-document
-  .getElementById("exportBtn")
-  .addEventListener("click", async () => {
-
-    const btn =
-      document.getElementById("exportBtn");
-
-    const originalText =
-      btn.textContent;
-
-    btn.textContent =
-      "產生圖片中…";
-
-    btn.disabled = true;
+        el.style.visibility =
+          "hidden";
 
 
-    try{
+        const under =
+          document.elementFromPoint(
+            ev.clientX,
+            ev.clientY
+          );
 
-      const canvas =
-        await html2canvas(tierlistEl, {
 
-          backgroundColor:"#ffffff",
+        el.style.visibility =
+          "visible";
 
-          scale:2,
 
-          useCORS:true,
+        const zone =
+          under
+            ? under.closest(
+                ".row-drop, #pool, #pool2"
+              )
+            : null;
+
+
+
+        getDropZones().forEach(z => {
+
+          z.classList.remove(
+            "hover"
+          );
 
         });
 
 
-      const link =
-        document.createElement("a");
 
-      link.download =
-        "idol-tierlist.png";
+        if(zone){
 
-      link.href =
-        canvas.toDataURL("image/png");
+          zone.classList.add(
+            "hover"
+          );
 
-      link.click();
+        }
 
-
-    }catch(err){
-
-      alert(
-        "匯出失敗，可能是圖片沒放對路徑或跨網域問題："
-        + err.message
-      );
+      }
 
 
-    }finally{
 
-      btn.textContent =
-        originalText;
+      /* =================================================
+         放下
+         ================================================= */
 
-      btn.disabled = false;
+      function onUp(ev){
 
-    }
-
-  });
-
-
-/* =========================================================================
-   重設
-   ========================================================================= */
-
-document
-  .getElementById("resetBtn")
-  .addEventListener("click", () => {
-
-    buildPool();
-
-  });
+        el.releasePointerCapture(
+          ev.pointerId
+        );
 
 
-/* =========================================================================
-   查看答案
-   -------------------------------------------------------------------------
-   只要把你的答案圖片放到：
-
-   images/answer.png
-
-   就可以。
-
-   如果你想換檔名，只需要改下面的路徑。
-   ========================================================================= */
-
-document
-  .getElementById("answerBtn")
-  .addEventListener("click", () => {
-
-    window.open(
-      "images/answer.png",
-      "_blank"
-    );
-
-  });
+        el.removeEventListener(
+          "pointermove",
+          onMove
+        );
 
 
-/* =========================================================================
-   啟動
-   ========================================================================= */
+        el.removeEventListener(
+          "pointerup",
+          onUp
+        );
 
-buildRows();
 
-buildPool();
+        el.removeEventListener(
+          "pointercancel",
+          onUp
+        );
 
-</script>
 
-</body>
-</html>
+        el.style.visibility =
+          "hidden";
+
+
+        const under =
+          document.elementFromPoint(
+            ev.clientX,
+            ev.clientY
+          );
+
+
+        el.style.visibility =
+          "visible";
+
+
+        const zone =
+          under
+            ? under.closest(
+                ".row-drop, #pool, #pool2"
+              )
+            : null;
+
+
+
+        
